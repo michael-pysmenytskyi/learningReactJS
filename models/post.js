@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var ObjectId = mongoose.Schema.Types.ObjectId;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
-var PostsSchema = new Schema({
+let PostsSchema = new Schema({
   title: String,
   body: String,
   description: String,
@@ -13,6 +13,6 @@ var PostsSchema = new Schema({
   }
 }, { collection: 'posts' });
 
-var PostModel = mongoose.model('Post', PostsSchema);
+let PostModel = mongoose.model('Post', PostsSchema);
 
 module.exports = PostModel;
