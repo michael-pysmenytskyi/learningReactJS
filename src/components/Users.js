@@ -4,16 +4,15 @@ import { bindActionCreators } from 'redux'
 
 import { getUsers, deleteUser } from '../actions/app'
 
-class App extends Component {
+class Users extends Component {
+
   componentDidMount() {
     const { getUsers } = this.props;
-
     getUsers();
   }
 
   deleteUser = (id) => {
     const { deleteUser } = this.props;
-
     deleteUser(id);
   };
 
@@ -31,10 +30,11 @@ class App extends Component {
   render() {
     const { users } = this.props;
 
-    return (
+    return (<div>
       <ul className="list">
-        {users.map(this.renderLi)}
+          {users.map(this.renderLi)}
       </ul>
+        </div>
     );
   }
 }
@@ -52,4 +52,4 @@ function mapDispatchToProps(dispatch) {
   }, dispatch)
 }
 
-export default connect(mapStoreToProps, mapDispatchToProps)(App);
+export default connect(mapStoreToProps, mapDispatchToProps)(Users);

@@ -1,29 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import App from './App';
+import MainMenu from "./MainMenu";
+import Users from './Users';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
+import Posts from  './Posts';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router'
 
-import { changeLogin } from '../actions/app'
+
 
 class Root extends Component {
   componentDidMount() {
     const { isLoggedIn, history } = this.props;
-
     if (!isLoggedIn) {
       history.push('/signIn')
     }
   }
-
   render() {
     const { isLoggedIn } = this.props;
-
     return (
       <Switch>
-        {isLoggedIn && <Route path="/" component={App} />}
+        <Route exact path="/mainMenu" component={MainMenu} />
+        <Route exact path="/users" component={Users} />
+        <Route exact path="/posts" component={Posts} />
         <Route exact path="/signUp" component={SignUp} />
         <Route exact path="/signIn" component={SignIn} />
       </Switch>
@@ -39,7 +40,6 @@ function mapStoreToProps(store) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    changeLogin
   }, dispatch)
 }
 

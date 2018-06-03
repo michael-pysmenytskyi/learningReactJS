@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import Button from './Button';
 import Input from './Input';
 import { NavLink } from 'react-router-dom'
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import { signIn } from '../actions/app'
 
 class SignIn extends Component {
@@ -15,9 +13,8 @@ class SignIn extends Component {
   };
   signIn = () => {
     const { email, pass } = this.state;
-    const { signIn } = this.props;
-
-    signIn({ email, pass });
+    const { signIn, history } = this.props;
+  signIn({ email, pass }, history);
   };
 
   onInputChange = (value, key) => {

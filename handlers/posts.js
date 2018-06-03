@@ -1,26 +1,23 @@
-var PostsModel = require('../models/post');
-var ObjectId = require('mongoose').Schema.Types.ObjectId;
+const PostsModel = require('../models/post');
+const ObjectId = require('mongoose').Schema.Types.ObjectId;
 
-var PostsHandler = function () {
+const PostsHandler = function () {
   this.getAllPosts = function (req, res, next) {
     PostsModel.find({}, function (err, result) {
       if (err) {
         return next(err);
       }
-
       res.status(200).send({ data: result });
     })
   };
 
   this.createPost = function (req, res, next) {
-    var body = req.body;
-    var userId = req.session.userId;
-    var postModel;
+    let body = req.body;
+    let userId = req.session.userId;
+    let postModel;
 
     body.userId = userId;
-
     postModel = new PostsModel(body);
-
     postModel.save(function (err, result) {
       if (err) {
         return next(err);
@@ -29,31 +26,30 @@ var PostsHandler = function () {
       res.status(201).send(result);
     })
   };
+  this.deletePost = function (req, res, next) {
+        var id = req.params.id;
 
+        PostsModel.findByIdAndRemove(id, function (err, result) {
+            if (err) {
+                return next(err);
+            }
+
+            res.status(200).send({updated: result});
+        })
+    };
   this.getPostsWithUser = function (req, res, next) {
-    /*PostsModel
-      .find({})
-      .populate('userId', { name: 1, _id: 0 })
-      .exec(function (err, result) {
-        if (err) {
-          return next(err);
-        }
+    let body = req.body;
+    let count = body.count || 20;
+    let page = body.page || 1;
+    let userId = req.session.userId;
+    body.userId = userId;
 
-        res.status(200).send({ data: result });
-      })*/
-
-    var body = req.body;
-    var count = body.count || 20;
-    var page = body.page || 1;
-
-    var skip = count * (page - 1);
-    var limit = count;
+    let skip = count * (page - 1);
+    let limit = count;
 
     PostsModel.aggregate([{
       $match: {
-        title: 'Tets',
-        _id: ObjectId("sdhajhak"),
-        date: new Date()
+        _id: userId
       }
     }, {
       $project: {
@@ -77,16 +73,7 @@ var PostsHandler = function () {
       $sort: {
         title: -1
       }
-    }, {
-      $match: {
-        'userId.name': 'Ivan'
-      }
-    }, /*{
-      $group: {
-        _id: '$title',
-        count: {$sum: 1}
-      }
-    },*/ {
+    },{
       $group: {
         _id: null,
         count: { $sum: 1 }
@@ -104,9 +91,6 @@ var PostsHandler = function () {
     })
   };
 
-  this.upload = function (req, res, next) {
-    res.status(200).send({ data: 'uploaded' });
-  }
 };
 
 module.exports = PostsHandler;

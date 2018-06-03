@@ -13,11 +13,9 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage });
 
 router.get('/', postsHandler.getAllPosts);
 router.get('/getWithUsers', postsHandler.getPostsWithUser);
 router.post('/', postsHandler.createPost);
-router.post('/upload', upload.single("file"), postsHandler.upload);
-
+router.delete('/:id', postsHandler.deletePost);
 module.exports = router;
