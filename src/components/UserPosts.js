@@ -8,8 +8,8 @@ import { getUserPosts } from '../actions/posts';
 
 class UserPosts extends Component {
   componentDidMount() {
-    const { getUserPosts } = this.props;
-    getUserPosts();
+      const {getUserPosts} = this.props;
+      getUserPosts();
   }
 
   redirectToPost = (id) => {
