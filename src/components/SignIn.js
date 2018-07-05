@@ -16,10 +16,10 @@ class SignIn extends Component {
   };
   signIn = () => {
     const { email, pass} = this.state;
-    const { signIn } = this.props;
+    const { signIn, history } = this.props;
       if(email === '' || pass === ''){
           this.incorrectInput("Enter all required data");
-      }else signIn({ email, pass });
+      }else signIn({ email, pass }, history);
   };
 
   incorrectInput = (err) => {
